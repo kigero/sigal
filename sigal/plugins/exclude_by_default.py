@@ -56,9 +56,9 @@ def remove_unincluded(album):
             elif line.startswith("-->"):
                 adding = False
             elif adding and not line.strip() == "":
-                incs.append(line.strip().lower())
+                incs.append('/' + line.strip().lower())
     
-    logger.debug(str(len(incs)) + ' includes for album ' + album.title)
+    logger.debug(str(len(incs)) + ' includes for album ""' + album.title + '"')
 
     # Remove any file that should not be included.
     origsize = len(album.medias)
