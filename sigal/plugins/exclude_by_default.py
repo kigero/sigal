@@ -21,9 +21,12 @@ from the output directory.
 
 """
 
+import logging
 import os
 from os.path import isfile, join
 from sigal import signals
+
+logger = logging.getLogger(__name__)
 
 # Returns true if path (lower cased) is found in incs.
 def should_include(incs, path):
@@ -55,8 +58,13 @@ def remove_unincluded(album):
             elif adding and not line.strip() == "":
                 incs.append(line.strip().lower())
     
+    logger.debug(str(len(incs)) + ' includes for album ' + album.title)
+
     # Remove any file that should not be included.
+    origsize = len(album.medias)
     album.medias[:] = [x for x in album.medias if should_include(incs, x.src_path)]
+    newsize = len(album.medias)
+    logger.debug('* ' + str(origsize - newsize) + ' media items removed (' + str(newsize) + ' left).')
 
     return album
 
